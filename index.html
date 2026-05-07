@@ -18,17 +18,15 @@
     }
 
     .sidebar {
-  width: 260px;
-  min-height: 100vh;
-
-  background-image: url("./background.png");
-  background-size: 100% 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-
-  color: white;
-  padding: 25px;
-}
+      width: 260px;
+      min-height: 100vh;
+      background-image: url("./background.png");
+      background-size: 100% 100%;
+      background-position: center;
+      background-repeat: no-repeat;
+      color: white;
+      padding: 25px;
+    }
 
     .sidebar h2 {
       margin-bottom: 35px;
@@ -41,16 +39,39 @@
       padding: 12px;
       margin-bottom: 10px;
       border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
     }
 
     .sidebar a.active,
     .sidebar a:hover {
       background: #2563eb;
+      transform: translateX(-5px);
     }
 
     .main {
       flex: 1;
       padding: 25px;
+    }
+
+    .page-content {
+      display: none;
+      animation: fadeUp 0.4s ease;
+    }
+
+    .page-content.active {
+      display: block;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .topbar {
@@ -83,6 +104,12 @@
       padding: 22px;
       border-radius: 14px;
       box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
     }
 
     .card h3 {
@@ -109,6 +136,7 @@
       padding: 22px;
       border-radius: 14px;
       box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
     }
 
     table {
@@ -128,6 +156,14 @@
       color: #0b3d91;
     }
 
+    tr {
+      transition: 0.25s;
+    }
+
+    tr:hover {
+      background: #f8fbff;
+    }
+
     .btn {
       background: #0b3d91;
       color: white;
@@ -135,14 +171,26 @@
       padding: 9px 14px;
       border-radius: 8px;
       cursor: pointer;
+      transition: 0.3s;
     }
 
     .btn:hover {
       background: #2563eb;
+      transform: scale(1.05);
     }
 
     .status {
       color: green;
+      font-weight: bold;
+    }
+
+    .wait {
+      color: orange;
+      font-weight: bold;
+    }
+
+    .danger {
+      color: red;
       font-weight: bold;
     }
 
@@ -152,6 +200,12 @@
       border-radius: 12px;
       margin-bottom: 15px;
       background: #f9fafb;
+      transition: 0.3s;
+    }
+
+    .patient-card:hover {
+      transform: translateY(-3px);
+      background: #f1f5ff;
     }
 
     .actions button {
@@ -164,11 +218,31 @@
       color: #0b3d91;
       font-weight: bold;
       cursor: pointer;
+      transition: 0.3s;
     }
 
     .actions button:hover {
       background: #dbeafe;
+      transform: translateX(-5px);
     }
+
+    .page-title {
+      margin-bottom: 20px;
+      color: #0b3d91;
+    }
+    .logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-start;
+  
+}
+
+.logo img {
+  width: 100px;
+  height: 100px;
+}
+
 
     @media (max-width: 900px) {
       .page {
@@ -177,6 +251,7 @@
 
       .sidebar {
         width: auto;
+        min-height: auto;
       }
 
       .cards {
@@ -205,120 +280,311 @@
   <div class="page">
 
     <aside class="sidebar">
-      <h2>الكارت الطبي</h2>
-      <a href="#" class="active">الرئيسية</a>
-      <a href="#">المرضى</a>
-      <a href="#">المواعيد</a>
-      <a href="#">التحاليل</a>
-      <a href="#">تسجيل خروج</a>
+      <h2 class="logo">
+        <img src="logo.png" alt="logo">
+        الكارت الطبي
+      </h2>
+      <a class="nav-link active" onclick="showPage('homePage', this)">الرئيسية</a>
+      <a class="nav-link" onclick="showPage('patientsPage', this)">المرضى</a>
+      <a class="nav-link" onclick="showPage('appointmentsPage', this)">المواعيد</a>
+      <a class="nav-link" onclick="showPage('testsPage', this)">التحاليل</a>
+      <a class="nav-link">تسجيل خروج</a>
     </aside>
 
     <main class="main">
 
-      <div class="topbar">
-        <div>
-          <h2>مرحبًا د. أحمد</h2>
-          <p>لوحة متابعة المرضى والسجلات الطبية</p>
+      <!-- الرئيسية زي ما هي -->
+      <div id="homePage" class="page-content active">
+
+        <div class="topbar">
+          <div>
+            <h2>مرحبًا د. أحمد</h2>
+            <p>لوحة متابعة المرضى والسجلات الطبية</p>
+          </div>
+
+          <input type="text" placeholder="ابحث عن مريض..." />
         </div>
 
-        <input type="text" placeholder="ابحث عن مريض..." />
+        <div class="cards">
+          <div class="card">
+            <h3>مرضى اليوم</h3>
+            <p>12</p>
+          </div>
+
+          <div class="card">
+            <h3>مواعيد اليوم</h3>
+            <p>8</p>
+          </div>
+
+          <div class="card">
+            <h3>طلبات تحاليل / أشعة</h3>
+            <p>5</p>
+          </div>
+        </div>
+
+        <div class="content">
+
+          <div class="box">
+            <h2>قائمة المرضى</h2>
+
+            <table>
+              <tr>
+                <th>اسم المريض</th>
+                <th>السن</th>
+                <th>آخر زيارة</th>
+                <th>الحالة</th>
+                <th>إجراء</th>
+              </tr>
+
+              <tr>
+                <td>أحمد محمد</td>
+                <td>35</td>
+                <td>2026/05/07</td>
+                <td class="status">مستقر</td>
+                <td><button class="btn">فتح الملف</button></td>
+              </tr>
+
+              <tr>
+                <td>سارة محمود</td>
+                <td>28</td>
+                <td>2026/05/06</td>
+                <td class="status">متابعة</td>
+                <td><button class="btn">فتح الملف</button></td>
+              </tr>
+
+              <tr>
+                <td>محمد علي</td>
+                <td>42</td>
+                <td>2026/05/05</td>
+                <td class="status">مراجعة</td>
+                <td><button class="btn">فتح الملف</button></td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="box">
+            <h2>ملف المريض</h2>
+
+            <div class="patient-card">
+              <h3>أحمد محمد</h3>
+              <p><b>Health ID:</b> H-2026-001</p>
+              <p><b>فصيلة الدم:</b> O+</p>
+              <p><b>الحساسية:</b> Penicillin</p>
+            </div>
+
+            <div class="patient-card">
+              <h3>التاريخ المرضي</h3>
+              <p>يعاني من ضغط دم مرتفع، ولا توجد عمليات سابقة.</p>
+            </div>
+
+            <div class="patient-card">
+              <h3>آخر تشخيص</h3>
+              <p>التهاب بسيط في الجهاز التنفسي.</p>
+            </div>
+
+            <div class="patient-card">
+              <h3>الوصفة الحالية</h3>
+              <p>دواء مضاد حيوي + مسكن عند الحاجة.</p>
+            </div>
+
+            <div class="actions">
+              <button>+ إضافة تشخيص</button>
+              <button>💊 كتابة وصفة</button>
+              <button>🧪 طلب تحليل</button>
+              <button>🩻 طلب أشعة</button>
+            </div>
+          </div>
+
+        </div>
       </div>
 
-      <div class="cards">
-        <div class="card">
-          <h3>مرضى اليوم</h3>
-          <p>12</p>
+      <!-- صفحة المرضى -->
+      <div id="patientsPage" class="page-content">
+        <div class="topbar">
+          <div>
+            <h2>المرضى</h2>
+            <p>إدارة ومتابعة بيانات المرضى</p>
+          </div>
+          <input type="text" placeholder="ابحث بالاسم أو Health ID..." />
         </div>
-
-        <div class="card">
-          <h3>مواعيد اليوم</h3>
-          <p>8</p>
-        </div>
-
-        <div class="card">
-          <h3>طلبات تحاليل / أشعة</h3>
-          <p>5</p>
-        </div>
-      </div>
-
-      <div class="content">
 
         <div class="box">
-          <h2>قائمة المرضى</h2>
-
+          <h2 class="page-title">قائمة كل المرضى</h2>
           <table>
             <tr>
+              <th>Health ID</th>
               <th>اسم المريض</th>
               <th>السن</th>
-              <th>آخر زيارة</th>
+              <th>فصيلة الدم</th>
               <th>الحالة</th>
               <th>إجراء</th>
             </tr>
-
             <tr>
+              <td>H-2026-001</td>
               <td>أحمد محمد</td>
               <td>35</td>
-              <td>2026/05/07</td>
+              <td>O+</td>
               <td class="status">مستقر</td>
               <td><button class="btn">فتح الملف</button></td>
             </tr>
-
             <tr>
+              <td>H-2026-002</td>
               <td>سارة محمود</td>
               <td>28</td>
-              <td>2026/05/06</td>
-              <td class="status">متابعة</td>
+              <td>A+</td>
+              <td class="wait">متابعة</td>
               <td><button class="btn">فتح الملف</button></td>
             </tr>
-
             <tr>
+              <td>H-2026-003</td>
               <td>محمد علي</td>
               <td>42</td>
-              <td>2026/05/05</td>
+              <td>B+</td>
               <td class="status">مراجعة</td>
               <td><button class="btn">فتح الملف</button></td>
             </tr>
           </table>
         </div>
+      </div>
 
-        <div class="box">
-          <h2>ملف المريض</h2>
-
-          <div class="patient-card">
-            <h3>أحمد محمد</h3>
-            <p><b>Health ID:</b> H-2026-001</p>
-            <p><b>فصيلة الدم:</b> O+</p>
-            <p><b>الحساسية:</b> Penicillin</p>
+      <!-- صفحة المواعيد -->
+      <div id="appointmentsPage" class="page-content">
+        <div class="topbar">
+          <div>
+            <h2>المواعيد</h2>
+            <p>متابعة مواعيد اليوم والحالات القادمة</p>
           </div>
+          <input type="text" placeholder="ابحث في المواعيد..." />
+        </div>
 
-          <div class="patient-card">
-            <h3>التاريخ المرضي</h3>
-            <p>يعاني من ضغط دم مرتفع، ولا توجد عمليات سابقة.</p>
+        <div class="cards">
+          <div class="card">
+            <h3>مؤكد</h3>
+            <p>5</p>
           </div>
-
-          <div class="patient-card">
-            <h3>آخر تشخيص</h3>
-            <p>التهاب بسيط في الجهاز التنفسي.</p>
+          <div class="card">
+            <h3>انتظار</h3>
+            <p>2</p>
           </div>
-
-          <div class="patient-card">
-            <h3>الوصفة الحالية</h3>
-            <p>دواء مضاد حيوي + مسكن عند الحاجة.</p>
-          </div>
-
-          <div class="actions">
-            <button>+ إضافة تشخيص</button>
-            <button>💊 كتابة وصفة</button>
-            <button>🧪 طلب تحليل</button>
-            <button>🩻 طلب أشعة</button>
+          <div class="card">
+            <h3>تم الكشف</h3>
+            <p>3</p>
           </div>
         </div>
 
+        <div class="box">
+          <h2 class="page-title">مواعيد اليوم</h2>
+          <table>
+            <tr>
+              <th>المريض</th>
+              <th>الوقت</th>
+              <th>نوع الزيارة</th>
+              <th>الحالة</th>
+              <th>إجراء</th>
+            </tr>
+            <tr>
+              <td>أحمد محمد</td>
+              <td>10:00 صباحًا</td>
+              <td>كشف</td>
+              <td class="status">مؤكد</td>
+              <td><button class="btn">بدء الكشف</button></td>
+            </tr>
+            <tr>
+              <td>سارة محمود</td>
+              <td>11:30 صباحًا</td>
+              <td>متابعة</td>
+              <td class="wait">انتظار</td>
+              <td><button class="btn">تأكيد</button></td>
+            </tr>
+            <tr>
+              <td>محمد علي</td>
+              <td>01:00 مساءً</td>
+              <td>مراجعة تحليل</td>
+              <td class="status">مؤكد</td>
+              <td><button class="btn">فتح الملف</button></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- صفحة التحاليل -->
+      <div id="testsPage" class="page-content">
+        <div class="topbar">
+          <div>
+            <h2>التحاليل والأشعة</h2>
+            <p>متابعة طلبات التحاليل والأشعة الخاصة بالمرضى</p>
+          </div>
+          <input type="text" placeholder="ابحث عن طلب..." />
+        </div>
+
+        <div class="cards">
+          <div class="card">
+            <h3>طلبات جديدة</h3>
+            <p>4</p>
+          </div>
+          <div class="card">
+            <h3>قيد الانتظار</h3>
+            <p>3</p>
+          </div>
+          <div class="card">
+            <h3>تم الرفع</h3>
+            <p>6</p>
+          </div>
+        </div>
+
+        <div class="box">
+          <h2 class="page-title">طلبات التحاليل والأشعة</h2>
+          <table>
+            <tr>
+              <th>المريض</th>
+              <th>نوع الطلب</th>
+              <th>التاريخ</th>
+              <th>الحالة</th>
+              <th>إجراء</th>
+            </tr>
+            <tr>
+              <td>أحمد محمد</td>
+              <td>تحليل دم CBC</td>
+              <td>2026/05/07</td>
+              <td class="wait">قيد الانتظار</td>
+              <td><button class="btn">عرض</button></td>
+            </tr>
+            <tr>
+              <td>سارة محمود</td>
+              <td>أشعة صدر</td>
+              <td>2026/05/06</td>
+              <td class="status">تم الرفع</td>
+              <td><button class="btn">تحميل</button></td>
+            </tr>
+            <tr>
+              <td>محمد علي</td>
+              <td>تحليل سكر</td>
+              <td>2026/05/05</td>
+              <td class="danger">مراجعة عاجلة</td>
+              <td><button class="btn">فتح</button></td>
+            </tr>
+          </table>
+        </div>
       </div>
 
     </main>
-
   </div>
+
+  <script>
+    function showPage(pageId, clickedLink) {
+      document.querySelectorAll(".page-content").forEach(page => {
+        page.classList.remove("active");
+      });
+
+      document.getElementById(pageId).classList.add("active");
+
+      document.querySelectorAll(".nav-link").forEach(link => {
+        link.classList.remove("active");
+      });
+
+      clickedLink.classList.add("active");
+    }
+  </script>
 
 </body>
 </html>
